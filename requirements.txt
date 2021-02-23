@@ -1,0 +1,7 @@
+Django
+asgiref
+coverage
+pip
+pytz
+setuptools
+sqlparse

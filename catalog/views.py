@@ -64,7 +64,7 @@ class AuthorDetailView(generic.DetailView):
     model = Author
 
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     """
     Generic class-based view listing books on loan to current user.
     """
@@ -73,7 +73,8 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(borrower=self.request.user).filter(
+            status__exact='o').order_by('due_back')
 
 
 class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
@@ -84,7 +85,8 @@ class LoanedBooksAllListView(PermissionRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='o').order_by(
+            'due_back')
 
 
 @permission_required('catalog.can_mark_returned')
@@ -111,10 +113,12 @@ def renew_book_librarian(request, pk):
 
     # If this is a GET (or any other method) create the default form.
     else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(
+            weeks=3)
         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
 
-    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst': book_inst})
+    return render(request, 'catalog/book_renew_librarian.html',
+                  {'form': form, 'bookinst': book_inst})
 
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
@@ -151,3 +155,12 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books')
     permission_required = 'catalog.can_mark_returned'
+
+
+"""
+import requests
+def index(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>')
+"""

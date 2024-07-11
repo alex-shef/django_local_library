@@ -1,4 +1,4 @@
-Django~=3.1.5
+Django~=4.2.14
 asgiref~=3.3.1
 coverage~=5.4
 pip~=21.0.1
